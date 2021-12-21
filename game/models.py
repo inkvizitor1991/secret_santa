@@ -2,10 +2,6 @@ from django.db import models
 
 
 
-class ResultQuerySet(models.QuerySet):
-    def active_for_user(self, user):
-        return self.filter(user=user, poll_finished=False).first()
-
 
 class GameCreator(models.Model):
     name = models.CharField(
