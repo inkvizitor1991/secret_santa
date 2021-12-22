@@ -43,20 +43,19 @@
 
 
 
+{% load static %}
+
 
 <div class="container">
     {% block content %}
-      <div class="col-md-12">
-        <div class="row">
-          <div class="col-md-4"></div>
-          <div class="col-md-4">
-            <h4 class="text-center">Организуй тайный обмен подарками, запусти праздничное настроение!</h4>
-          </div>
-          <div class="col-md-4"></div>
-        </div>
-      </div>
+      <figure class="text-center">
+        <blockquote class="blockquote">
+          <p>Организуй тайный обмен подарками, запусти праздничное настроение!</p>
+        </blockquote>
+      </figure>
     {% endblock content %}
 </div>
+<img src="{% static 'src/santa.jpeg' %}" class="img-fluid" alt="santa">
 </body>
 <script src="https://thecode.media/wp-content/uploads/2019/12/snowfall2020.js">
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
