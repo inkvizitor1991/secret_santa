@@ -12,7 +12,7 @@ class GameCreator(models.Model):
     email = models.EmailField(verbose_name='Почтовый адрес')
 
     def __str__(self):
-        return self.name
+        return self.name.username
 
     class Meta:
         verbose_name = 'Создатель игры'

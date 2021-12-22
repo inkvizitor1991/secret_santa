@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -32,8 +33,8 @@
             <li class="nav-item">
             <a class="nav-link" href="#">Выйти</a>
           </li>
-
-          <a class="nav-link" href="#">Link</a>
+            <li class="nav-item">
+            <a class="nav-link" href="#">Link</a>
         </li>
       </ul>
       {% endif %}
@@ -44,6 +45,10 @@
     </div>
   </div>
 </nav>
+
+
+<img src="{% static 'src/santa.jpeg'%}" class="img-fluid" alt="SANTA">
+
 <div class="container">
     {% block content %}
       <div class="col-md-12">
