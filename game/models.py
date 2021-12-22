@@ -1,5 +1,5 @@
 from django.db import models
-
+from django.conf import settings
 
 
 
@@ -50,7 +50,7 @@ class Game(models.Model):
 
 
 class Player(models.Model):
-    name = models.CharField(max_length=100, verbose_name='Имя участника')
+    name = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name='Пользователь', on_delete=models.CASCADE)
     slug = models.SlugField()
 
     def __str__(self):
@@ -96,7 +96,7 @@ class Draw(models.Model):
         verbose_name='Кому дарит',
         on_delete=models.CASCADE
     )
-    objects = ResultQuerySet.as_manager()
+
     # def __str__(self):
     # Кто кому дарит
 
