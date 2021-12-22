@@ -4,11 +4,12 @@ from django.conf import settings
 
 
 class GameCreator(models.Model):
-    name = models.CharField(
-        max_length=100,
-        default='Santa',
-        verbose_name='Название создателя игры'
+    name = models.OneToOneField(
+        settings.AUTH_USER_MODEL,
+        verbose_name='Пользователь',
+        on_delete=models.CASCADE
     )
+    email = models.EmailField(verbose_name='Почтовый адрес')
 
     def __str__(self):
         return self.name
@@ -50,7 +51,7 @@ class Game(models.Model):
 
 
 class Player(models.Model):
-    name = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name='Пользователь', on_delete=models.CASCADE)
+    name = models.CharField(max_length=100, verbose_name='Имя участника')
     slug = models.SlugField()
 
     def __str__(self):
@@ -67,7 +68,7 @@ class Registration(models.Model):
         verbose_name='Игрок',
         on_delete=models.CASCADE
     )
-    email = models.EmailField(verbose_name='Почтовый адрес')
+
     interests = models.CharField(max_length=300, verbose_name='Интересы')
     letter = models.TextField(verbose_name='Письмо санте')
     slug = models.SlugField()
