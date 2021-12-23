@@ -1,11 +1,9 @@
 from django import forms
 from django.contrib.auth import get_user_model
 
-#from .models import Registration
+
 
 User = get_user_model()
-
-
 
 class LoginForm(forms.ModelForm):
 
@@ -29,6 +27,8 @@ class LoginForm(forms.ModelForm):
         if not user.check_password(password):
             raise forms.ValidationError('Неверный пароль')
         return self.cleaned_data
+
+
 
 class RegistrationForm(forms.ModelForm):
 
@@ -74,3 +74,8 @@ class RegistrationForm(forms.ModelForm):
     class Meta:
         model = User
         fields = ['username', 'password', 'confirm_password', 'first_name', 'last_name', 'address', 'phone', 'email']
+
+
+class GameForm(forms.ModelForm):
+    pass
+

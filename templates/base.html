@@ -29,7 +29,7 @@
           </li>
           {% else %}
             <li class="nav-item">
-            <a class="nav-link" href="#">Личный кабинет</a>
+            <a class="nav-link" href="{% url 'account' %}">Личный кабинет</a>
           </li>
             <li class="nav-item">
             <a class="nav-link" href="{% url 'logout' %}">Выйти</a>
@@ -46,16 +46,18 @@
 {% load static %}
 
 
-<div class="container">
+
     {% block content %}
       <figure class="text-center">
         <blockquote class="blockquote">
           <p>Организуй тайный обмен подарками, запусти праздничное настроение!</p>
         </blockquote>
       </figure>
+      <img src="{% static 'src/santa.jpeg' %}" class="img-fluid" alt="santa">
     {% endblock content %}
-</div>
-<img src="{% static 'src/santa.jpeg' %}" class="img-fluid" alt="santa">
+
+
+
 </body>
 <script src="https://thecode.media/wp-content/uploads/2019/12/snowfall2020.js">
 <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>

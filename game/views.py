@@ -68,3 +68,17 @@ class RegistrationView(views.View):
             'form': form
         }
         return render(request, 'registration.html', context)
+
+
+class AccountView(views.View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'account.html', {})
+
+
+class CreateGameView(views.View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'create_game.html', {})
+
+class GameView(views.View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'game.html', {})
