@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django import views
-from .forms import LoginForm, RegistrationForm
+from .forms import LoginForm, RegistrationForm, GameForm
 from .models import GameCreator
 
 
@@ -75,10 +75,32 @@ class AccountView(views.View):
         return render(request, 'account.html', {})
 
 
-class CreateGameView(views.View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'create_game.html', {})
-
 class GameView(views.View):
     def get(self, request, *args, **kwargs):
         return render(request, 'game.html', {})
+
+
+class CreateGameView(views.View):
+    def get(self, request, *args, **kwargs):
+        form = GameForm(request.POST or None)
+
+        context = {
+            'form': form
+        }
+        return render(request, 'create_game.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = GameForm(request.POST or None)
+        if form.is_valid():
+
+            return HttpResponseRedirect('/congratulations/')
+        context = {
+            'form': form
+        }
+        return render(request, 'create_game.html', context)
+
+
+
+class Congratulations(views.View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'congratulations.html', {})

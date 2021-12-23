@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import get_user_model
-
+from .models import Game
 
 
 User = get_user_model()
@@ -77,5 +77,25 @@ class RegistrationForm(forms.ModelForm):
 
 
 class GameForm(forms.ModelForm):
-    pass
+
+    name = forms.CharField(required=True)
+    price = forms.DecimalField(required=False)
+    draw_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+    #Период регистрации участников: до 25.12.2021, до 31.12.2021
+    gift_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['name'].label = 'Название игры'
+        self.fields['draw_date'].label = 'Дата жеребьёвки'
+        self.fields['price'].label = 'Стоимость подарка'
+        self.fields['gift_date'].label = 'Дата отправки подарка'
+
+    class Meta:
+        model = Game
+        fields = [
+            'name', 'price', 'draw_date', 'gift_date',
+        ]
+
+
 
