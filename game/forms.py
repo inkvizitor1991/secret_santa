@@ -79,7 +79,7 @@ class RegistrationForm(forms.ModelForm):
 class GameForm(forms.ModelForm):
 
     name = forms.CharField(required=True)
-    price = forms.DecimalField(required=False)
+    price = forms.IntegerField(required=False)
     draw_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     #Период регистрации участников: до 25.12.2021, до 31.12.2021
     gift_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))

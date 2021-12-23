@@ -1,9 +1,18 @@
 {% extends 'base.html' %}
-
+{% load crispy_forms_tags %}
 {% block content %}
-<div class="container">
-  <h4 class="text-center">Давай создадим игру</h4>
-  <hr>
 
-</div>
+    <div class="row" style="margin-bottom: 200px; margin-top: 160px;">
+        <div class="col-md-6 offset-md-3">
+            <h4 class="text-center">Cоздадим игру</h4>
+            <hr>
+            <form action="{% url 'create' %}" method="POST">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" class="btn btn-success btn-block" value="Сохранить">
+            </form>
+        </div>
+    </div>
+
 {% endblock content %}
+

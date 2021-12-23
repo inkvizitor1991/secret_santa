@@ -12,6 +12,6 @@ urlpatterns = [
     path('account/', AccountView.as_view(), name='account'),
     path('create/', CreateGameView.as_view(), name='create'),
     path('game/', GameView.as_view(), name='game'),
-    path('congratulations/', Congratulations.as_view(), name='congratulations')
+    path('congratulations/', Congratulations.as_view(), name='congratulations'),
 
 ]

@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django import views
 from .forms import LoginForm, RegistrationForm, GameForm
-from .models import GameCreator
+from .models import GameCreator, Game
 
 
 
@@ -81,18 +81,19 @@ class GameView(views.View):
 
 
 class CreateGameView(views.View):
+
     def get(self, request, *args, **kwargs):
         form = GameForm(request.POST or None)
-
         context = {
             'form': form
         }
+        print('3')
         return render(request, 'create_game.html', context)
 
     def post(self, request, *args, **kwargs):
+        print('9')
         form = GameForm(request.POST or None)
         if form.is_valid():
-
             return HttpResponseRedirect('/congratulations/')
         context = {
             'form': form
