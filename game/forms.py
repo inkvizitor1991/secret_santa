@@ -36,7 +36,10 @@ class RegistrationForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
     phone = forms.CharField(required=False)
     address = forms.CharField(required=False)
+    first_name = forms.CharField()
     email = forms.EmailField()
+    wishlist = forms.CharField(required=False)
+    message_to_santa = forms.CharField(required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -48,6 +51,10 @@ class RegistrationForm(forms.ModelForm):
         self.fields['email'].label = 'Почта'
         self.fields['first_name'].label = 'Имя'
         self.fields['last_name'].label = 'Фамилия'
+        self.fields['wishlist'].label = 'Вишлист'
+        self.fields['message_to_santa'].label = 'Письмо Санте'
+
+
 
     def clean_email(self):
         email = self.cleaned_data['email']

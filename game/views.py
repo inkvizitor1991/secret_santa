@@ -3,9 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django import views
 from .forms import LoginForm, RegistrationForm, GameForm
-from .models import GameCreator, Game
-
-
+from .models import Game, Player
 
 
 class BaseViews(views.View):
@@ -47,6 +45,7 @@ class RegistrationView(views.View):
         return render(request, 'registration.html', context)
 
     def post(self, request, *args, **kwargs):
+
         form = RegistrationForm(request.POST or None)
         if form.is_valid():
             new_user = form.save(commit=False)
@@ -57,11 +56,15 @@ class RegistrationView(views.View):
             new_user.save()
             new_user.set_password(form.cleaned_data['password'])
             new_user.save()
-            GameCreator.objects.create(
+            Player.objects.create(
+                user=new_user,
                 name=new_user,
+                wishlist=form.cleaned_data['wishlist'],
+                message_to_santa=form.cleaned_data['message_to_santa'],
                 email=form.cleaned_data['email'],
             )
-            user = authenticate(username=form.cleaned_data['username'], password=form.cleaned_data['password'])
+            user = authenticate(username=form.cleaned_data['username'],
+                                password=form.cleaned_data['password'])
             login(request, user)
             return HttpResponseRedirect('/')
         context = {
@@ -87,11 +90,9 @@ class CreateGameView(views.View):
         context = {
             'form': form
         }
-        print('3')
         return render(request, 'create_game.html', context)
 
     def post(self, request, *args, **kwargs):
-        print('9')
         form = GameForm(request.POST or None)
         if form.is_valid():
             return HttpResponseRedirect('/congratulations/')
@@ -99,7 +100,6 @@ class CreateGameView(views.View):
             'form': form
         }
         return render(request, 'create_game.html', context)
-
 
 
 class Congratulations(views.View):
