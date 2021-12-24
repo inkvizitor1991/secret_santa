@@ -114,3 +114,8 @@ class CreateGameView(views.View):
 class Congratulations(views.View):
     def get(self, request, *args, **kwargs):
         return render(request, 'congratulations.html', {})
+
+
+class WishlistView(views.View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'wishlist.html', {})
