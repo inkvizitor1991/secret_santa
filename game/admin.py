@@ -1,13 +1,16 @@
 from django.contrib import admin
 
 from .models import (
-    GameCreator, Game,
-    Player, Registration,
-    Draw
+    Game,
+    Player,
+#    GameCreator,
+#    Registration,
+#    Draw
 )
 
-admin.site.register(GameCreator)
 admin.site.register(Game)
 admin.site.register(Player)
-admin.site.register(Registration)
-admin.site.register(Draw)
+
+#admin.site.register(GameCreator)
+#admin.site.register(Registration)
+#admin.site.register(Draw)
