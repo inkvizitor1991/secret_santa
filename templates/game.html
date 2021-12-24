@@ -1,9 +1,24 @@
 {% extends 'base.html' %}
-
 {% block content %}
+
 <div class="container">
   <h4 class="text-center">Игры</h4>
-  <hr>
-
+      <div class="row my-3">
+        <div class="col-4">Название игры</div>
+        <div class="col">{{ game.name }}</div>
+      </div>
+      <div class="row my-3">
+        <div class="col-4">Максимальная стоимость подарка</div>
+        <div class="col">{{ game.price_limit }}</div>
+      </div>
+      <div class="row my-3">
+        <div class="col-4">Дата жеребьёвки</div>
+        <div class="col">{{ game.draw_date }}</div>
+      </div>
+      <div class="row my-3">
+        <div class="col-4">Дата вручения подарка</div>
+        <div class="col">{{ game.gift_date }}</div>
+      </div>
 </div>
+
 {% endblock content %}

@@ -79,8 +79,11 @@ class AccountView(views.View):
 
 
 class GameView(views.View):
+
     def get(self, request, *args, **kwargs):
-        return render(request, 'game.html', {})
+        games = Game.objects.all()
+        for game in games:
+            return render(request, 'game.html', {'game': game})
 
 
 class CreateGameView(views.View):
