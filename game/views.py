@@ -95,6 +95,15 @@ class CreateGameView(views.View):
     def post(self, request, *args, **kwargs):
         form = GameForm(request.POST or None)
         if form.is_valid():
+            Game.objects.create(
+
+                name=form.cleaned_data['name'],
+                draw_date=form.cleaned_data['draw_date'],
+                price_limit=form.cleaned_data['price_limit'],
+                reg_date_limit=form.cleaned_data['reg_date_limit'],
+                gift_date=form.cleaned_data['gift_date'],
+                game_creator=request.user
+            )
             return HttpResponseRedirect('/congratulations/')
         context = {
             'form': form

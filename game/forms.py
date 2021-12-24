@@ -1,12 +1,12 @@
 from django import forms
 from django.contrib.auth import get_user_model
 from .models import Game
-
+from datetime import date, timedelta, datetime
 
 User = get_user_model()
 
-class LoginForm(forms.ModelForm):
 
+class LoginForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
 
     class Meta:
@@ -23,15 +23,14 @@ class LoginForm(forms.ModelForm):
         password = self.cleaned_data['password']
         user = User.objects.filter(username=username).first()
         if not user:
-            raise forms.ValidationError(f'Пользователь с логином {username} не найден в системе')
+            raise forms.ValidationError(
+                f'Пользователь с логином {username} не найден в системе')
         if not user.check_password(password):
             raise forms.ValidationError('Неверный пароль')
         return self.cleaned_data
 
 
-
 class RegistrationForm(forms.ModelForm):
-
     confirm_password = forms.CharField(widget=forms.PasswordInput)
     password = forms.CharField(widget=forms.PasswordInput)
     phone = forms.CharField(required=False)
@@ -54,21 +53,22 @@ class RegistrationForm(forms.ModelForm):
         self.fields['wishlist'].label = 'Вишлист'
         self.fields['message_to_santa'].label = 'Письмо Санте'
 
-
-
     def clean_email(self):
         email = self.cleaned_data['email']
         domain = email.split('.')[-1]
         if domain in ['net', 'xyz']:
-            raise forms.ValidationError(f'Регистрация для домена {domain} невозможна')
+            raise forms.ValidationError(
+                f'Регистрация для домена {domain} невозможна')
         if User.objects.filter(email=email).exists():
-            raise forms.ValidationError('Данный почтовый адрес уже зарегистрирован')
+            raise forms.ValidationError(
+                'Данный почтовый адрес уже зарегистрирован')
         return email
 
     def clean_username(self):
         username = self.cleaned_data['username']
         if User.objects.filter(username=username).exists():
-            raise forms.ValidationError(f'Имя {username} занято. Попробуйте другое.')
+            raise forms.ValidationError(
+                f'Имя {username} занято. Попробуйте другое.')
         return username
 
     def clean(self):
@@ -80,29 +80,53 @@ class RegistrationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ['username', 'password', 'confirm_password', 'first_name', 'last_name', 'address', 'phone', 'email']
+        fields = ['username', 'password', 'confirm_password', 'first_name',
+                  'last_name', 'address', 'phone', 'email']
 
 
 class GameForm(forms.ModelForm):
-
     name = forms.CharField(required=True)
-    price = forms.IntegerField(required=False)
+    price_limit = forms.IntegerField(required=False)
+    reg_date_limit = forms.DateField(
+        widget=forms.TextInput(attrs={'type': 'date'}))
+    # Период регистрации участников: до 25.12.2021, до 31.12.2021
     draw_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
-    #Период регистрации участников: до 25.12.2021, до 31.12.2021
     gift_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].label = 'Название игры'
         self.fields['draw_date'].label = 'Дата жеребьёвки'
-        self.fields['price'].label = 'Стоимость подарка'
+        self.fields['price_limit'].label = 'Стоимость подарка'
         self.fields['gift_date'].label = 'Дата отправки подарка'
+        self.fields['reg_date_limit'].label = 'Последний день регистрации'
+
+    def clean_date_limit(self):
+        reg_date_limit = self.cleaned_data['reg_date_limit']
+
+        if reg_date_limit < date.today():
+            raise forms.ValidationError(
+                'Регистрацию можно провести с сегодняшнего дня до 31.12.2021 (до 12.00 МСК)')
+        return reg_date_limit
+
+    def clean_draw_date(self):
+        draw_date = self.cleaned_data['draw_date']
+
+        if draw_date < date.today():
+            raise forms.ValidationError(
+                'Жеребьевку можно провести нераньше чем через день после регистрации.')
+        return draw_date
+
+    def clean_gift_date(self):
+        gift_date = self.cleaned_data['gift_date']
+
+        if gift_date < date.today():
+            raise forms.ValidationError(
+                'Подарок можно отправить только после жеребьевки.')
+        return gift_date
 
     class Meta:
         model = Game
         fields = [
-            'name', 'price', 'draw_date', 'gift_date',
+            'name', 'price_limit', 'reg_date_limit', 'draw_date', 'gift_date',
         ]
-
-
-
