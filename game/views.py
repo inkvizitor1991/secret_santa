@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django import views
 from .forms import LoginForm, RegistrationForm, GameForm
-from .models import GameCreator, Game
+from .models import Game
 
 
 
