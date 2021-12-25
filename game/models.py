@@ -49,7 +49,7 @@ class Game(models.Model):
         blank=True,
     )
     price_limit = models.DecimalField(
-        max_digits=9, decimal_places=2,
+        max_digits=9, decimal_places=2, null=True,
         default=1000, verbose_name='Стоимость подарка'
     )
     reg_date_limit = models.DateField(

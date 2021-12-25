@@ -87,8 +87,7 @@ class RegistrationForm(forms.ModelForm):
 class GameForm(forms.ModelForm):
     name = forms.CharField(required=True)
     price_limit = forms.IntegerField(required=False)
-    reg_date_limit = forms.DateField(
-        widget=forms.TextInput(attrs={'type': 'date'}))
+    reg_date_limit = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     # Период регистрации участников: до 25.12.2021, до 31.12.2021
     draw_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     gift_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
@@ -96,10 +95,11 @@ class GameForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['name'].label = 'Название игры'
-        self.fields['draw_date'].label = 'Дата жеребьёвки'
         self.fields['price_limit'].label = 'Стоимость подарка'
-        self.fields['gift_date'].label = 'Дата отправки подарка'
         self.fields['reg_date_limit'].label = 'Последний день регистрации'
+        self.fields['draw_date'].label = 'Дата жеребьёвки'
+        self.fields['gift_date'].label = 'Дата отправки подарка'
+
 
     def clean_date_limit(self):
         reg_date_limit = self.cleaned_data['reg_date_limit']
@@ -107,7 +107,7 @@ class GameForm(forms.ModelForm):
         if reg_date_limit < date.today():
             raise forms.ValidationError(
                 'Регистрацию можно провести с сегодняшнего дня до 31.12.2021 (до 12.00 МСК)')
-        return self.cleaned_data
+        return reg_date_limit
 
     def clean_draw_date(self):
         draw_date = self.cleaned_data['draw_date']
@@ -115,7 +115,7 @@ class GameForm(forms.ModelForm):
         if draw_date < date.today():
             raise forms.ValidationError(
                 'Жеребьевку можно провести нераньше чем через день после регистрации.')
-        return self.cleaned_data
+        return draw_date
 
     def clean_gift_date(self):
         gift_date = self.cleaned_data['gift_date']
@@ -123,7 +123,7 @@ class GameForm(forms.ModelForm):
         if gift_date < date.today():
             raise forms.ValidationError(
                 'Подарок можно отправить только после жеребьевки.')
-        return self.cleaned_data
+        return gift_date
 
     class Meta:
         model = Game
