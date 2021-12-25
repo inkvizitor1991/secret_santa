@@ -179,4 +179,12 @@ gifts = [
 
 class WishlistView(views.View):
     def get(self, request, *args, **kwargs):
+<<<<<<< HEAD
         return render(request, 'wishlist.html', {'gifts': gifts})
+=======
+        return render(request, 'wishlist.html', {})
+
+class HowtoView(views.View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'how_to.html', {})
+>>>>>>> 3b9a1639349aab45aaa1f5a40cd7e7077657b312
