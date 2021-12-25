@@ -122,3 +122,7 @@ class Congratulations(views.View):
 class WishlistView(views.View):
     def get(self, request, *args, **kwargs):
         return render(request, 'wishlist.html', {})
+
+class HowtoView(views.View):
+    def get(self, request, *args, **kwargs):
+        return render(request, 'how_to.html', {})
