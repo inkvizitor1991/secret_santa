@@ -87,7 +87,8 @@ class RegistrationForm(forms.ModelForm):
 class GameForm(forms.ModelForm):
     name = forms.CharField(required=True)
     price_limit = forms.IntegerField(required=False)
-    reg_date_limit = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+    reg_date_limit = forms.DateField(
+        widget=forms.TextInput(attrs={'type': 'date'}))
     # Период регистрации участников: до 25.12.2021, до 31.12.2021
     draw_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     gift_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
@@ -99,7 +100,6 @@ class GameForm(forms.ModelForm):
         self.fields['reg_date_limit'].label = 'Последний день регистрации'
         self.fields['draw_date'].label = 'Дата жеребьёвки'
         self.fields['gift_date'].label = 'Дата отправки подарка'
-
 
     def clean(self):
         reg_date_limit = self.cleaned_data['reg_date_limit']

@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
 {% block content %}
 
-<div class="container">
-  <h4 class="text-center">Игры</h4>
+
+  {% for game in games %}
+  <h4 class="text-center">Игра: {{ game.name }}</h4>
+    <div class="container">
       <div class="row my-3">
         <div class="col-4">Название игры</div>
         <div class="col">{{ game.name }}</div>
@@ -19,6 +21,6 @@
         <div class="col-4">Дата вручения подарка</div>
         <div class="col">{{ game.gift_date }}</div>
       </div>
-</div>
-
+    </div>
+{% endfor %}
 {% endblock content %}
