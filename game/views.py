@@ -1,9 +1,11 @@
+import random
+
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django import views
 from .forms import LoginForm, RegistrationForm, GameForm
-from .models import Game, Player
+from .models import Game, Player, GamePassword
 
 
 class BaseViews(views.View):
@@ -115,10 +117,13 @@ class CreateGameView(views.View):
 
 class Congratulations(views.View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'congratulations.html', {})
-
-
-
+        password = random.randint(1, 999999)
+        game = Game.objects.all().last()
+        GamePassword.objects.create(
+            password=int(password),
+            game=game
+        )
+        return render(request, 'congratulations.html', {'password': password})
 
 
 
@@ -179,12 +184,11 @@ gifts = [
 
 class WishlistView(views.View):
     def get(self, request, *args, **kwargs):
-<<<<<<< HEAD
         return render(request, 'wishlist.html', {'gifts': gifts})
-=======
-        return render(request, 'wishlist.html', {})
+
+
 
 class HowtoView(views.View):
     def get(self, request, *args, **kwargs):
         return render(request, 'how_to.html', {})
->>>>>>> 3b9a1639349aab45aaa1f5a40cd7e7077657b312
+

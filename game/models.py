@@ -79,5 +79,25 @@ class Game(models.Model):
 
 
 
+class GamePassword(models.Model):
+    password = models.IntegerField(
+        verbose_name='Пароль для входа в игру',
 
+    )
+    game = models.ForeignKey(
+        Game,
+        related_name='game',
+        verbose_name='Игра',
+        on_delete=models.CASCADE,
+
+    )
+
+    slug = models.SlugField()
+
+    def __str__(self):
+        return str(self.game)
+
+    class Meta:
+        verbose_name = 'Пароли'
+        verbose_name_plural = 'Пароль'
 
