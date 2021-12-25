@@ -8,22 +8,7 @@
             <hr>
             <form action="{% url 'create' %}" method="POST">
                 {% csrf_token %}
-                {% for field in form %}
-                {% if not field.name == 'price_limit' %}
-                  <div class="col my-2 col-6">
-                    {{ field.label_tag }}
-                  </div>
-                  <div class="col my-2 col-6">
-                    {{ field }}
-                  </div>
-                {% endif %}
-                {% endfor %}
-
-                  <div class="form-check form-switch">
-                    <input class="form-check-input" type="checkbox" id="flexSwitchCheckDefault">
-                    <label class="form-check-label" for="flexSwitchCheckDefault">Выбрать стоимость подарка</label>
-                  </div>
-
+                {{ form|crispy }}
               <hr>
                 <input type="submit" class="btn btn-success btn-block" value="Сохранить">
             </form>
