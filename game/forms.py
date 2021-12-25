@@ -112,13 +112,13 @@ class GameForm(forms.ModelForm):
             raise forms.ValidationError(
                 'Регистрацию можно провести с сегодняшнего дня до 31.12.2021 (до 12.00 МСК)')
 
-        if draw_date < reg_date_limit:
+        if draw_date < reg_date_limit or date_select < draw_date:
             raise forms.ValidationError(
-                'Жеребьевку можно провести только после регистрации.')
+                'Жеребьевку можно провести только после регистрации и до 31.12.2021.')
 
-        if gift_date < draw_date:
+        if gift_date < draw_date or date_select < gift_date:
             raise forms.ValidationError(
-                'Подарок можно отправить только после жеребьевки.')
+                'Подарок можно отправить только после жеребьевки и до 31.12.2021.')
 
         return self.cleaned_data
 
