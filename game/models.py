@@ -52,10 +52,6 @@ class Game(models.Model):
         max_digits=9, decimal_places=2, null=True,
         default=1000, verbose_name='Стоимость подарка'
     )
-    reg_date_limit = models.DateField(
-        default='2021-12-30',
-        verbose_name='Последний день регистрации'
-    )
     draw_date = models.DateField(
         default='2021-12-31',
         verbose_name='Дата жеребьёвки'

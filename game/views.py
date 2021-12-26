@@ -61,7 +61,6 @@ class RegistrationView(views.View):
             Player.objects.create(
                 user=new_user,
                 name=new_user,
-                wishlist=form.cleaned_data['wishlist'],
                 message_to_santa=form.cleaned_data['message_to_santa'],
                 email=form.cleaned_data['email'],
             )
@@ -104,7 +103,6 @@ class CreateGameView(views.View):
                 name=form.cleaned_data['name'],
                 draw_date=form.cleaned_data['draw_date'],
                 price_limit=form.cleaned_data['price_limit'],
-                reg_date_limit=form.cleaned_data['reg_date_limit'],
                 gift_date=form.cleaned_data['gift_date'],
                 game_creator=request.user
             )
@@ -188,7 +186,6 @@ class WishlistView(views.View):
 
 
 
-class HowtoView(views.View):
+class PasswordGame(views.View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'how_to.html', {})
-
+        return render(request, 'password_game.html', {})

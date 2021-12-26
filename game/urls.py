@@ -5,7 +5,7 @@ from .views import (
     LoginView, AccountView,
     CreateGameView, GameView,
     Congratulations, WishlistView,
-    HowtoView,
+    PasswordGame
 )
 
 
@@ -21,7 +21,7 @@ urlpatterns = [
     path('game/', GameView.as_view(), name='game'),
     path('congratulations/', Congratulations.as_view(), name='congratulations'),
     path('wishlist/', WishlistView.as_view(), name='wishlist'),
-    path('howto/', HowtoView.as_view(), name='howto'),
+    path('password_game/', PasswordGame.as_view(), name='password_game'),
 
 
 ]

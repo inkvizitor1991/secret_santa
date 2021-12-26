@@ -37,7 +37,6 @@ class RegistrationForm(forms.ModelForm):
     address = forms.CharField(required=False)
     first_name = forms.CharField()
     email = forms.EmailField()
-    wishlist = forms.CharField(required=False)
     message_to_santa = forms.CharField(required=False)
 
     def __init__(self, *args, **kwargs):
@@ -50,7 +49,6 @@ class RegistrationForm(forms.ModelForm):
         self.fields['email'].label = 'Почта'
         self.fields['first_name'].label = 'Имя'
         self.fields['last_name'].label = 'Фамилия'
-        self.fields['wishlist'].label = 'Вишлист'
         self.fields['message_to_santa'].label = 'Письмо Санте'
 
     def clean_email(self):
@@ -87,9 +85,6 @@ class RegistrationForm(forms.ModelForm):
 class GameForm(forms.ModelForm):
     name = forms.CharField(required=True)
     price_limit = forms.IntegerField(required=False)
-    reg_date_limit = forms.DateField(
-        widget=forms.TextInput(attrs={'type': 'date'}))
-    # Период регистрации участников: до 25.12.2021, до 31.12.2021
     draw_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     gift_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
 
@@ -97,24 +92,17 @@ class GameForm(forms.ModelForm):
         super().__init__(*args, **kwargs)
         self.fields['name'].label = 'Название игры'
         self.fields['price_limit'].label = 'Стоимость подарка'
-        self.fields['reg_date_limit'].label = 'Последний день регистрации'
         self.fields['draw_date'].label = 'Дата жеребьёвки'
         self.fields['gift_date'].label = 'Дата отправки подарка'
 
     def clean(self):
-        reg_date_limit = self.cleaned_data['reg_date_limit']
         draw_date = self.cleaned_data['draw_date']
         gift_date = self.cleaned_data['gift_date']
-
         date_select = datetime.strptime('2021-12-31', '%Y-%m-%d').date()
 
-        if reg_date_limit < date.today() or date_select < reg_date_limit:
+        if draw_date < date.today() or date_select < draw_date:
             raise forms.ValidationError(
-                'Регистрацию можно провести с сегодняшнего дня до 31.12.2021 (до 12.00 МСК)')
-
-        if draw_date < reg_date_limit or date_select < draw_date:
-            raise forms.ValidationError(
-                'Жеребьевку можно провести только после регистрации и до 31.12.2021.')
+                'Жеребьевку можно провести начиная с сегодняшнего и до 31.12.2021.')
 
         if gift_date < draw_date or date_select < gift_date:
             raise forms.ValidationError(
@@ -125,5 +113,5 @@ class GameForm(forms.ModelForm):
     class Meta:
         model = Game
         fields = [
-            'name', 'price_limit', 'reg_date_limit', 'draw_date', 'gift_date',
+            'name', 'price_limit', 'draw_date', 'gift_date',
         ]
