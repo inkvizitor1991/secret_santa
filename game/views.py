@@ -126,68 +126,15 @@ class Congratulations(views.View):
 
 
 
-gifts = [
-        'Новый смартфон.',
-        'Настольная игра.',
-        '5-10 килограммов мандаринов (для кого-то это настоящее счастье).',
-        'Планшет.',
-        'Сертификат в парк развлечений.',
-        'Билеты в кино.',
-        'Билеты на каток.',
-        'Графический планшет.',
-        'Книга.',
-        'Сертификат на развивающий курс.',
-        'Набор для творчества.',
-        'Картина.',
-        'Сертификат какого-либо магазина.',
-        'Компьютерная игра.',
-        'Персональный компьютер.',
-        'Ноутбук.',
-        'Запчасти для персонального компьютера (видеокарта, монитор и т. д.)',
-        'Алкоголь.',
-        'Портсигар.',
-        'Ювелирные изделия.',
-        'Мягкая игрушка.',
-        'Набор подарочных конфет.',
-        'Домашнее животное.',
-        'Головоломка.',
-        'Портативная зарядка.',
-        'Bluetooth-наушники.',
-        'Сертификат в салон красоты.',
-        'Чай, кофе, горячий шоколад.',
-        'Шарф, шапка и варежки.',
-        'Билет на концерт.',
-        'Путевка в другой город или страну.',
-        'Термокружка.',
-        'Сертификат на татуировку.',
-        'Деньги.',
-        'Снежный шар.',
-        'Подарочные наборы личной гигиены.',
-        'Сертификат на фотосессию.',
-        'Бытовые приборы (утюг, чайник, посуда и т.д.)',
-        'Игровая приставка.',
-        'Полароид.',
-        'Кружка.',
-        'Копилка.',
-        'Блокнот, ежедневник, скетчбук.',
-        'Духи или парфюм.',
-        'Дорожная подушка.',
-        'Настольный светильник.',
-        'Свитшот, футболка.',
-        'Портативная колонка.',
-        'Чайный сервиз.',
-        'Наборы для выращивания растений.',
-]
-
-
-class WishlistView(views.View):
-    def get(self, request, *args, **kwargs):
-        return render(request, 'wishlist.html', {'gifts': gifts})
-
-
-
 class PasswordGame(views.View):
     def get(self, request, *args, **kwargs):
+
+        name = Player.objects.get(name='dr')
+        game = Game.objects.get(name='а')
+        name.creator.add(game)
+        print(name.creator.all())
+        print(name)
+        print(game)
 
         form = PasswordForm(request.POST or None)
         context = {
@@ -197,12 +144,23 @@ class PasswordGame(views.View):
 
 
     def post(self, request, *args, **kwargs):
-        #   print(request.user)
         form = PasswordForm(request.POST or None)
         if form.is_valid():
+            name = Player.objects.get(name='dr')
+            game = Game.objects.get(id=int(request.user.id))
+            #name.game.add(game)
+            print(name)
+            print(game)
             #GamePassword.objects.create(
             #    game_password=int(password),
             #    game=game
+            #)
+
+            #Player.objects.get_or_create(
+            #    pk=request.user.id,
+            #    name=request.user,
+            #    wishlist=str(form.cleaned_data['wishlist']),
+            #    message_to_santa=form.cleaned_data['message_to_santa'],
             #)
 
             return HttpResponseRedirect('/')
