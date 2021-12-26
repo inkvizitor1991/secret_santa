@@ -131,8 +131,8 @@ class PasswordGame(views.View):
 
         name = Player.objects.get(name='dr')
         game = Game.objects.get(name='а')
-        name.creator.add(game)
-        print(name.creator.all())
+        #name.creator.add(game)
+        #print(name.creator.all())
         print(name)
         print(game)
 
