@@ -4,7 +4,7 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django import views
-from .forms import LoginForm, RegistrationForm, GameForm
+from .forms import LoginForm, RegistrationForm, GameForm, PasswordForm
 from .models import Game, Player, GamePassword
 
 
@@ -118,7 +118,7 @@ class Congratulations(views.View):
         password = random.randint(1, 999999)
         game = Game.objects.all().last()
         GamePassword.objects.create(
-            password=int(password),
+            game_password=int(password),
             game=game
         )
         return render(request, 'congratulations.html', {'password': password})
@@ -188,4 +188,25 @@ class WishlistView(views.View):
 
 class PasswordGame(views.View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'password_game.html', {})
+
+        form = PasswordForm(request.POST or None)
+        context = {
+            'form': form
+        }
+        return render(request, 'password_game.html', context)
+
+
+    def post(self, request, *args, **kwargs):
+        #   print(request.user)
+        form = PasswordForm(request.POST or None)
+        if form.is_valid():
+            #GamePassword.objects.create(
+            #    game_password=int(password),
+            #    game=game
+            #)
+
+            return HttpResponseRedirect('/')
+        context = {
+            'form': form
+        }
+        return render(request, 'password_game.html', context)

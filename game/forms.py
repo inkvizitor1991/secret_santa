@@ -1,7 +1,7 @@
 from django import forms
 from django.contrib.auth import get_user_model
-from .models import Game
-from datetime import date, timedelta, datetime
+from .models import Game, GamePassword
+from datetime import date, datetime
 
 User = get_user_model()
 
@@ -114,4 +114,28 @@ class GameForm(forms.ModelForm):
         model = Game
         fields = [
             'name', 'price_limit', 'draw_date', 'gift_date',
+        ]
+
+
+class PasswordForm(forms.ModelForm):
+
+    game_password = forms.IntegerField(required=False)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['game_password'].label = 'Уникальный код'
+
+    def clean(self):
+        game_password = self.cleaned_data['game_password']
+        password = GamePassword.objects.filter(game_password=game_password)
+
+        if not password:
+            raise forms.ValidationError(
+                'Пожалуйста проверьте правильность ввода')
+
+        return self.cleaned_data
+
+    class Meta:
+        model = GamePassword
+        fields = [
+            'game_password'
         ]

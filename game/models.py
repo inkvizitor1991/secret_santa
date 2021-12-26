@@ -76,11 +76,11 @@ class Game(models.Model):
 
 
 class GamePassword(models.Model):
-    password = models.IntegerField(
+    game_password = models.IntegerField(
         verbose_name='Пароль для входа в игру',
 
     )
-    game = models.ForeignKey(
+    game = models.OneToOneField(
         Game,
         related_name='game',
         verbose_name='Игра',
