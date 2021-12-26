@@ -1,31 +1,14 @@
 from django import forms
+from django.conf import settings
 from django.contrib.auth import get_user_model
 from .models import Game, GamePassword
 from datetime import date, datetime
 
+
+
 User = get_user_model()
 
-CHOICES = [
-    ('1', 'Новый смартфон.'),
-    ('2', 'Настольная игра.'),
-    ('3', '5-10 килограммов мандаринов (для кого-то это настоящее счастье).'),
-    ('4', 'Планшет.'),
-    ('5', 'Сертификат в парк развлечений.'),
-    ('6', 'Билеты в кино.'),
-    ('7', 'Билеты на каток.'),
-    ('8', 'Графический планшет.'),
-    ('9', 'Книга.'),
-    ('10', 'Сертификат на развивающий курс.'),
-    ('11', 'Набор для творчества.'),
-    ('12', 'Картина.'),
-    ('13', 'Сертификат какого-либо магазина.'),
-    ('14', 'Компьютерная игра.'),
-    ('15', 'Персональный компьютер.'),
-    ('16', 'Ноутбук.'),
-    ('17', 'Запчасти для персонального компьютера'),
-    ('18', 'Алкоголь.')
 
-]
 
 
 class LoginForm(forms.ModelForm):
@@ -142,7 +125,7 @@ class GameForm(forms.ModelForm):
 class PasswordForm(forms.ModelForm):
     game_password = forms.IntegerField(required=False)
     wishlist = forms.MultipleChoiceField(
-        choices=CHOICES, widget=forms.SelectMultiple(),
+        choices=settings.CHOICES, widget=forms.SelectMultiple(),
         label="myLabel", required=False)
     message_to_santa = forms.CharField(required=False, max_length=500)
 
