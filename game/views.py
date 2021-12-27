@@ -75,7 +75,7 @@ class RegistrationView(views.View):
 class AccountView(views.View):
     def get(self, request, *args, **kwargs):
         player = Player.objects.get(name=request.user)
-        return render(request, 'account.html', {'player':player})
+        return render(request, 'account.html', {'player': player})
 
 
 class GameView(views.View):

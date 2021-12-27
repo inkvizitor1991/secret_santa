@@ -6,6 +6,10 @@
   <h4 class="text-center">Игра: {{ game.name }}</h4>
     <div class="container">
       <div class="row my-3">
+        <div class="col-4">Создатель игры</div>
+        <div class="col">{{ game.game_creator }}</div>
+      </div>
+      <div class="row my-3">
         <div class="col-4">Название игры</div>
         <div class="col">{{ game.name }}</div>
       </div>
@@ -21,6 +25,14 @@
         <div class="col-4">Дата вручения подарка</div>
         <div class="col">{{ game.gift_date }}</div>
       </div>
+    {% for name in game.game_creator_assistent.all %}
+        <div class="row my-3">
+
+          <div class="col-4">Игрок</div>
+          <div class="col">{{ name }}</div>
+        </div>
+      {% endfor %}
+
     </div>
 {% endfor %}
 {% endblock content %}
