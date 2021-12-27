@@ -61,7 +61,6 @@ class RegistrationView(views.View):
             Player.objects.create(
                 user=new_user,
                 name=new_user,
-                message_to_santa=form.cleaned_data['message_to_santa'],
                 email=form.cleaned_data['email'],
             )
             user = authenticate(username=form.cleaned_data['username'],
@@ -144,6 +143,10 @@ class PasswordGame(views.View):
         form = PasswordForm(request.POST or None)
 
         if form.is_valid():
+
+            #wishlist
+            #message_to_santa
+
             game_password = GamePassword.objects.get(
                 game_password=form.cleaned_data['game_password'])
             game = Game.objects.get(name=game_password)

@@ -1,7 +1,7 @@
 from django import forms
 from django.conf import settings
 from django.contrib.auth import get_user_model
-from .models import Game, GamePassword
+from .models import Game, GamePassword, Player
 from datetime import date, datetime
 
 
@@ -42,7 +42,6 @@ class RegistrationForm(forms.ModelForm):
     address = forms.CharField(required=False)
     first_name = forms.CharField()
     email = forms.EmailField()
-    message_to_santa = forms.CharField(required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -54,7 +53,6 @@ class RegistrationForm(forms.ModelForm):
         self.fields['email'].label = 'Почта'
         self.fields['first_name'].label = 'Имя'
         self.fields['last_name'].label = 'Фамилия'
-        self.fields['message_to_santa'].label = 'Письмо Санте'
 
     def clean_email(self):
         email = self.cleaned_data['email']
@@ -124,9 +122,6 @@ class GameForm(forms.ModelForm):
 
 class PasswordForm(forms.ModelForm):
     game_password = forms.IntegerField(required=False)
-    wishlist = forms.MultipleChoiceField(
-        choices=settings.CHOICES, widget=forms.SelectMultiple(),
-        label="myLabel", required=False)
     message_to_santa = forms.CharField(required=False, max_length=500)
 
     def __init__(self, *args, **kwargs):
@@ -146,7 +141,7 @@ class PasswordForm(forms.ModelForm):
         return self.cleaned_data
 
     class Meta:
-        model = GamePassword
+        model = Player
         fields = [
-            'game_password'
+            'game_password', 'wishlist'
         ]

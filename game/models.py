@@ -13,7 +13,7 @@ class Player(models.Model):
     )
     name = models.CharField(max_length=100, verbose_name='Имя игрока')
     email = models.EmailField(verbose_name='Почтовый адрес')
-    wishlist = models.TextField(blank=True)
+    wishlist = models.CharField(blank=True, choices=settings.CHOICES, max_length=500)
     message_to_santa = models.TextField(blank=True)
     gift_reciever = models.ForeignKey(
             'self',
