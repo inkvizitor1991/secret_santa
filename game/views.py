@@ -128,10 +128,6 @@ class Congratulations(views.View):
 class PasswordGame(views.View):
     def get(self, request, *args, **kwargs):
         name = request.user
-        print(name)
-
-
-
         form = PasswordForm(request.POST or None)
         context = {
             'form': form
