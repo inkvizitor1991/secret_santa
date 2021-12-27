@@ -8,6 +8,7 @@
       {% if request.user.creator.all or player.creator_assistant.all%}
        <a class="btn btn-outline-dark" href="{% url 'create' %}" role="button">Создать игру</a>
        <a class="btn btn-outline-dark" href="{% url 'game' %}" role="button">Мои игры</a>
+       <a class="btn btn-outline-dark" href="{% url 'password_game' %}" role="button">Вступить в игру</a>
       {% else %}
        <a class="btn btn-outline-dark" href="{% url 'create' %}" role="button">Создать игру</a>
        <a class="btn btn-outline-dark" href="{% url 'password_game' %}" role="button">Вступить в игру</a>
