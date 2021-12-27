@@ -87,7 +87,6 @@ class RegistrationForm(forms.ModelForm):
 
 class GameForm(forms.ModelForm):
     name = forms.CharField(required=True)
-    price_limit = forms.IntegerField(required=False)
     draw_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     gift_date = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
 

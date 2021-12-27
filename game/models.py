@@ -1,5 +1,5 @@
 from django.db import models
-from game import choice
+from game import choice_gift, choice_price_gift
 from django.contrib.auth.models import User
 
 
@@ -13,7 +13,7 @@ class Player(models.Model):
     )
     name = models.CharField(max_length=100, verbose_name='Имя игрока')
     email = models.EmailField(verbose_name='Почтовый адрес')
-    wishlist = models.CharField(blank=True, choices=choice.CHOICES, max_length=500)
+    wishlist = models.CharField(blank=True, choices=choice_gift.CHOICES, max_length=500)
     message_to_santa = models.TextField(blank=True)
     gift_reciever = models.ForeignKey(
             'self',
@@ -48,10 +48,11 @@ class Game(models.Model):
         verbose_name='Помощник',
         blank=True,
     )
-    price_limit = models.DecimalField(
-        max_digits=9, decimal_places=2, null=True,
-        default=1000, verbose_name='Стоимость подарка'
+    price_limit = models.CharField(
+        blank=True, choices=choice_price_gift.CHOICES,
+        verbose_name='Стоимость подарка', max_length=5, null=True
     )
+
     draw_date = models.DateField(
         default='2021-12-31',
         verbose_name='Дата жеребьёвки'
