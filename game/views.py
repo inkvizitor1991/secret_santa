@@ -9,6 +9,7 @@ from .models import Game, Player, GamePassword
 
 
 class BaseViews(views.View):
+
     def get(self, request, *args, **kwargs):
         return render(request, 'base.html', {})
 
@@ -73,6 +74,7 @@ class RegistrationView(views.View):
 
 
 class AccountView(views.View):
+
     def get(self, request, *args, **kwargs):
         player = Player.objects.get(name=request.user)
         return render(request, 'account.html', {'player': player})
@@ -112,10 +114,11 @@ class CreateGameView(views.View):
 
 
 class Congratulations(views.View):
+
     def get(self, request, *args, **kwargs):
-        password = random.randint(1, 999999)
         game = Game.objects.all().last()
-        GamePassword.objects.create(
+        password = game.id
+        GamePassword.objects.update_or_create(
             game_password=int(password),
             game=game
         )
