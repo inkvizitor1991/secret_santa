@@ -47,7 +47,6 @@ class RegistrationView(views.View):
         return render(request, 'registration.html', context)
 
     def post(self, request, *args, **kwargs):
-
         form = RegistrationForm(request.POST or None)
         if form.is_valid():
             new_user = form.save(commit=False)
@@ -75,7 +74,8 @@ class RegistrationView(views.View):
 
 class AccountView(views.View):
     def get(self, request, *args, **kwargs):
-        return render(request, 'account.html', {})
+        player = Player.objects.get(name=request.user)
+        return render(request, 'account.html', {'player':player})
 
 
 class GameView(views.View):
@@ -98,7 +98,6 @@ class CreateGameView(views.View):
         form = GameForm(request.POST or None)
         if form.is_valid():
             Game.objects.create(
-
                 name=form.cleaned_data['name'],
                 draw_date=form.cleaned_data['draw_date'],
                 price_limit=form.cleaned_data['price_limit'],
@@ -123,8 +122,6 @@ class Congratulations(views.View):
         return render(request, 'congratulations.html', {'password': password})
 
 
-
-
 class PasswordGame(views.View):
     def get(self, request, *args, **kwargs):
         name = request.user
@@ -134,7 +131,6 @@ class PasswordGame(views.View):
         }
         return render(request, 'password_game.html', context)
 
-
     def post(self, request, *args, **kwargs):
         form = PasswordForm(request.POST or None)
 
@@ -143,12 +139,12 @@ class PasswordGame(views.View):
                 game_password=form.cleaned_data['game_password'])
             game = Game.objects.get(name=game_password)
             name = Player.objects.get(name=request.user)
-            name.creator_assistant.add(game)
 
-            name.wishlist=form.cleaned_data['wishlist']
+            name.wishlist = form.cleaned_data['wishlist']
             name.save()
             name.message_to_santa = form.cleaned_data['message_to_santa']
             name.save()
+            name.creator_assistant.add(game)
 
             return HttpResponseRedirect('/')
         context = {

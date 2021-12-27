@@ -5,13 +5,14 @@
   <h4 class="text-center">Личный кабинет</h4>
   <hr>
     <div class="d-grid gap-2 col-6 mx-auto">
-      {% if request.user.creator.all %}
+      {% if request.user.creator.all or player.creator_assistant.all%}
        <a class="btn btn-outline-dark" href="{% url 'create' %}" role="button">Создать игру</a>
        <a class="btn btn-outline-dark" href="{% url 'game' %}" role="button">Мои игры</a>
       {% else %}
        <a class="btn btn-outline-dark" href="{% url 'create' %}" role="button">Создать игру</a>
        <a class="btn btn-outline-dark" href="{% url 'password_game' %}" role="button">Вступить в игру</a>
       {% endif %}
+
     </div>
 </div>
 
