@@ -143,15 +143,16 @@ class PasswordGame(views.View):
         form = PasswordForm(request.POST or None)
 
         if form.is_valid():
-
-            #wishlist
-            #message_to_santa
-
             game_password = GamePassword.objects.get(
                 game_password=form.cleaned_data['game_password'])
             game = Game.objects.get(name=game_password)
             name = Player.objects.get(name=request.user)
             name.creator_assistant.add(game)
+
+            name.wishlist=form.cleaned_data['wishlist']
+            name.save()
+            name.message_to_santa = form.cleaned_data['message_to_santa']
+            name.save()
 
             return HttpResponseRedirect('/')
         context = {
