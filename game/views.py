@@ -188,15 +188,12 @@ class Congratulations(views.View):
             website = 'https://entropax.pythonanywhere.com'
             recipient_name = form.cleaned_data['receive_name']
             recipient_email = form.cleaned_data['invitation_email']
-#def send_message_to_mail(recipient_email):
-#    send_mail(
-#        'вавав',
-#        'hello!!!!',
-#        settings.EMAIL_HOST_USER,
-#        [recipient_email],
-#        fail_silently=False,
-#    )
-
+            body = f'{website}\n{recipient_name}\n{recipient_email}'
+            draw.send_mail(
+                    'game info',
+                    body,
+                    'send@example.com',
+            )
 
 
             return HttpResponseRedirect('/')
