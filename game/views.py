@@ -96,6 +96,7 @@ class GameView(views.View):
     def post(self, request, *args, **kwargs):
         form = ButtonForm(request.POST or None)
         games = Game.objects.all()
+        draw.make_draw(games[0])
         return render(request, 'game.html', {'games': games})
 
     def get(self, request, *args, **kwargs):
