@@ -35,4 +35,12 @@
 
     </div>
 {% endfor %}
+
+<div>
+    <form method="post", style='text-align:center'>
+        {% csrf_token %}
+        <button type="submit" name="run_script">Провести жеребьевку</button>
+    </form>
+</div>
+
 {% endblock content %}
