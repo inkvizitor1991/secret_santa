@@ -97,6 +97,7 @@ class GameView(views.View):
         form = ButtonForm(request.POST or None)
         games = Game.objects.all()
         draw.make_draw(games[0])
+        draw.make_and_send_email_message(games[0])
         return render(request, 'game.html', {'games': games})
 
     def get(self, request, *args, **kwargs):
