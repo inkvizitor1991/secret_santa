@@ -1,4 +1,4 @@
-from send_message import send_message_to_mail
+from game.management import draw
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
@@ -185,10 +185,19 @@ class Congratulations(views.View):
         form = CongratulationsForm(request.POST or None)
 
         if form.is_valid():
-            website = 'fdfdfsds'
+            website = 'https://entropax.pythonanywhere.com'
             recipient_name = form.cleaned_data['receive_name']
             recipient_email = form.cleaned_data['invitation_email']
-            send_message_to_mail(recipient_email)################тут функция которая отправляет сообщение на почту
+#def send_message_to_mail(recipient_email):
+#    send_mail(
+#        'вавав',
+#        'hello!!!!',
+#        settings.EMAIL_HOST_USER,
+#        [recipient_email],
+#        fail_silently=False,
+#    )
+
+
 
             return HttpResponseRedirect('/')
         context = {
