@@ -25,6 +25,22 @@
         <div class="col-4">Дата вручения подарка</div>
         <div class="col">{{ game.gift_date }}</div>
       </div>
+    </div>
+{% endfor %}
+
+<div>
+    <form method="post", style='text-align:center'>
+        {% csrf_token %}
+        <button type="submit" name="run_script">Провести жеребьевку</button>
+    </form>
+</div>
+
+
+
+<hr>
+  {% for game in games %}
+  <h4 class="text-center">Игроки:</h4>
+    <div class="container">
     {% for name in game.game_creator_assistent.all %}
         <div class="row my-3">
 
@@ -36,11 +52,6 @@
     </div>
 {% endfor %}
 
-<div>
-    <form method="post", style='text-align:center'>
-        {% csrf_token %}
-        <button type="submit" name="run_script">Провести жеребьевку</button>
-    </form>
-</div>
+
 
 {% endblock content %}
