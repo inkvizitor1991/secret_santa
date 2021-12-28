@@ -11,6 +11,7 @@ django-crispy-forms = "^1.13.0"
 Django = "^4.0"
 crispy-bootstrap5 = "^0.6"
 django-sendgrid-v5 = "^1.2.0"
+python-dotenv = "^0.19.2"
 
 [tool.poetry.dev-dependencies]
 
