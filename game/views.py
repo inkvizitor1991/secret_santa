@@ -99,6 +99,7 @@ class GameView(views.View):
         return render(request, 'game.html', {'games': games})
 
     def get(self, request, *args, **kwargs):
+        games = Game.objects.all()
         return render(request, 'game.html', {'games': games})
 
 
