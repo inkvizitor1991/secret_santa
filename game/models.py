@@ -52,7 +52,6 @@ class Game(models.Model):
         blank=True, choices=choice_price_gift.CHOICES,
         verbose_name='Стоимость подарка', max_length=5, null=True
     )
-
     draw_date = models.DateField(
         default='2021-12-31',
         verbose_name='Дата жеребьёвки'
@@ -65,6 +64,7 @@ class Game(models.Model):
             related_name='games',
             blank=True,
     )
+    invitation_email = models.EmailField(verbose_name='Почта для отправки приглашения',blank=True)
     slug = models.SlugField()
 
     def __str__(self):

@@ -1,5 +1,4 @@
 from django import forms
-from django.conf import settings
 from django.contrib.auth import get_user_model
 from .models import Game, GamePassword, Player
 from datetime import date, datetime
@@ -143,4 +142,21 @@ class PasswordForm(forms.ModelForm):
         model = Player
         fields = [
             'game_password', 'wishlist'
+        ]
+
+
+
+class CongratulationsForm(forms.ModelForm):
+
+    receive_name = forms.CharField(required=True)
+    invitation_email = forms.EmailField(required=True)
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['receive_name'].label = 'Имя получателя'
+        self.fields['invitation_email'].label = 'Почта для отправки приглашения'
+
+    class Meta:
+        model = Game
+        fields = [
+            'invitation_email'
         ]

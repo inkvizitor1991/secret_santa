@@ -15,7 +15,7 @@
       </div>
       <div class="row my-3">
         <div class="col-4">Максимальная стоимость подарка</div>
-        <div class="col">{{ game.price_limit }}</div>
+        <div class="col">{{ game.get_price_limit_display }}</div>
       </div>
       <div class="row my-3">
         <div class="col-4">Дата жеребьёвки</div>
@@ -25,7 +25,7 @@
         <div class="col-4">Дата вручения подарка</div>
         <div class="col">{{ game.gift_date }}</div>
       </div>
-    {% for name in game.game_creator_assistent.all %}
+      {% for name in game.game_creator_assistent.all %}
         <div class="row my-3">
 
           <div class="col-4">Игрок</div>

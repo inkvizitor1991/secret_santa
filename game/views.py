@@ -1,11 +1,11 @@
-import random
-
+from send_message import send_message_to_mail
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django import views
-from .forms import LoginForm, RegistrationForm, GameForm, PasswordForm
+from .forms import LoginForm, RegistrationForm, GameForm, PasswordForm, CongratulationsForm
 from .models import Game, Player, GamePassword
+
 
 
 class BaseViews(views.View):
@@ -113,21 +113,10 @@ class CreateGameView(views.View):
         return render(request, 'create_game.html', context)
 
 
-class Congratulations(views.View):
-
-    def get(self, request, *args, **kwargs):
-        game = Game.objects.all().last()
-        password = game.id
-        GamePassword.objects.update_or_create(
-            game_password=int(password),
-            game=game
-        )
-        return render(request, 'congratulations.html', {'password': password})
 
 
 class PasswordGame(views.View):
     def get(self, request, *args, **kwargs):
-        name = request.user
         form = PasswordForm(request.POST or None)
         context = {
             'form': form
@@ -154,3 +143,37 @@ class PasswordGame(views.View):
             'form': form
         }
         return render(request, 'password_game.html', context)
+
+
+
+class Congratulations(views.View):
+
+    def get(self, request, *args, **kwargs):
+        game = Game.objects.all().last()
+        password = game.id
+        GamePassword.objects.update_or_create(
+            game_password=int(password),
+            game=game
+        )
+        form = CongratulationsForm(request.POST or None)
+        context = {
+            'form': form,
+            'password': password
+        }
+
+        return render(request, 'congratulations.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = CongratulationsForm(request.POST or None)
+
+        if form.is_valid():
+            website = 'fdfdfsds'
+            recipient_name = form.cleaned_data['receive_name']
+            recipient_email = form.cleaned_data['invitation_email']
+            send_message_to_mail(recipient_email)
+
+            return HttpResponseRedirect('/')
+        context = {
+            'form': form
+        }
+        return render(request, 'congratulations.html', context)

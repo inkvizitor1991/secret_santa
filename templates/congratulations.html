@@ -12,9 +12,14 @@
           <hr>
             <h4 class="text-center">Код для приглашения в игру: <mark>{{ password }}</mark></h4>
             <hr>
+            <form action="{% url 'congratulations' %}" method="POST">
+              {% csrf_token %}
+              {{ form|crispy }}
+            <hr>
+              <input type="submit" class="btn btn-success btn-block" value="Применить">
+            </form>
     </div>
   </div>
 
 {% endblock content %}
-
 
