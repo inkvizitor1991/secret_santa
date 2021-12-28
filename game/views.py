@@ -4,8 +4,15 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django import views
-from .forms import LoginForm, RegistrationForm, GameForm, PasswordForm
+from .forms import (
+        LoginForm,
+        RegistrationForm,
+        GameForm,
+        PasswordForm,
+        ButtonForm
+)
 from .models import Game, Player, GamePassword
+from .management import draw
 
 
 class BaseViews(views.View):
@@ -82,8 +89,16 @@ class AccountView(views.View):
 
 class GameView(views.View):
 
-    def get(self, request, *args, **kwargs):
+#    if request.method == 'POST' and 'run_script' in request.POST:
+    # call function
+#        draw(game)
+
+    def post(self, request, *args, **kwargs):
+        form = ButtonForm(request.POST or None)
         games = Game.objects.all()
+        return render(request, 'game.html', {'games': games})
+
+    def get(self, request, *args, **kwargs):
         return render(request, 'game.html', {'games': games})
 
 
