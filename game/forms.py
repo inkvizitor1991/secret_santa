@@ -144,3 +144,7 @@ class PasswordForm(forms.ModelForm):
         fields = [
             'game_password', 'wishlist'
         ]
+
+
+class ButtonForm(forms.Form):
+    pass
