@@ -15,13 +15,10 @@ class Player(models.Model):
     email = models.EmailField(verbose_name='Почтовый адрес')
     wishlist = models.CharField(blank=True, choices=choice_gift.CHOICES, max_length=500)
     message_to_santa = models.TextField(blank=True)
-    gift_reciever = models.ForeignKey(
-            'self',
-            related_name='player_reciever',
+    gift_reciever = models.EmailField(
+            verbose_name='Почтовый адрес получателя подарка',
             null=True, blank=True,
-            on_delete=models.DO_NOTHING,
     )
-    slug = models.SlugField()
 
     def __str__(self):
         return self.name
@@ -65,7 +62,6 @@ class Game(models.Model):
             related_name='games',
             blank=True,
     )
-    slug = models.SlugField()
 
     def __str__(self):
         return self.name
@@ -97,4 +93,3 @@ class GamePassword(models.Model):
     class Meta:
         verbose_name = 'Пароли'
         verbose_name_plural = 'Пароль'
-
