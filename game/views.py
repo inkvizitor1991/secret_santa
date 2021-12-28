@@ -97,7 +97,17 @@ class GameView(views.View):
         form = ButtonForm(request.POST or None)
         games = Game.objects.all()
         draw.make_draw(games[0])
-        draw.make_and_send_email_message(games[0])
+        player = Player.objects.get(name=request.user)
+        recipient = player.gift_reciever
+        recipient_email = player.email
+        body = f'Подарите подарок по адресу: {recipient}'
+        draw.send_email(
+                'Your friend',
+                body,
+                recipient_email,
+        )
+
+
         return render(request, 'game.html', {'games': games})
 
     def get(self, request, *args, **kwargs):
@@ -189,10 +199,10 @@ class Congratulations(views.View):
             recipient_name = form.cleaned_data['receive_name']
             recipient_email = form.cleaned_data['invitation_email']
             body = f'{website}\n{recipient_name}\n{recipient_email}'
-            draw.send_mail(
+            draw.send_email(
                     'game info',
                     body,
-                    'send@example.com',
+                    recipient_email,
             )
 
 
