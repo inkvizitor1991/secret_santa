@@ -8,8 +8,6 @@ from datetime import date, datetime
 User = get_user_model()
 
 
-
-
 class LoginForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
 
@@ -160,3 +158,5 @@ class CongratulationsForm(forms.ModelForm):
         fields = [
             'invitation_email'
         ]
+class ButtonForm(forms.Form):
+    pass

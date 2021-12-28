@@ -3,8 +3,19 @@ from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django import views
+
 from .forms import LoginForm, RegistrationForm, GameForm, PasswordForm, CongratulationsForm
+
+from .forms import (
+        LoginForm,
+        RegistrationForm,
+        GameForm,
+        PasswordForm,
+        ButtonForm
+)
+
 from .models import Game, Player, GamePassword
+
 
 
 
@@ -81,6 +92,11 @@ class AccountView(views.View):
 
 
 class GameView(views.View):
+
+    def post(self, request, *args, **kwargs):
+        form = ButtonForm(request.POST or None)
+        games = Game.objects.all()
+        return render(request, 'game.html', {'games': games})
 
     def get(self, request, *args, **kwargs):
         games = Game.objects.all()
@@ -170,7 +186,7 @@ class Congratulations(views.View):
             website = 'fdfdfsds'
             recipient_name = form.cleaned_data['receive_name']
             recipient_email = form.cleaned_data['invitation_email']
-            send_message_to_mail(recipient_email)
+            send_message_to_mail(recipient_email)################тут функция которая отправляет сообщение на почту
 
             return HttpResponseRedirect('/')
         context = {
