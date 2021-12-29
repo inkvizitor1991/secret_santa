@@ -3,17 +3,11 @@ from django.contrib.auth import get_user_model
 from .models import Game, GamePassword, Player
 from datetime import date, datetime
 
-
-
 User = get_user_model()
 
 
 class LoginForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput)
-
-    class Meta:
-        model = User
-        fields = ['username', 'password']
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -30,6 +24,10 @@ class LoginForm(forms.ModelForm):
         if not user.check_password(password):
             raise forms.ValidationError('Неверный пароль')
         return self.cleaned_data
+
+    class Meta:
+        model = User
+        fields = ['username', 'password']
 
 
 class RegistrationForm(forms.ModelForm):
@@ -143,20 +141,22 @@ class PasswordForm(forms.ModelForm):
         ]
 
 
-
 class CongratulationsForm(forms.ModelForm):
-
     receive_name = forms.CharField(required=True)
     invitation_email = forms.EmailField(required=True)
+
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['receive_name'].label = 'Имя получателя'
-        self.fields['invitation_email'].label = 'Почта для отправки приглашения'
+        self.fields[
+            'invitation_email'].label = 'Почта для отправки приглашения'
 
     class Meta:
         model = Game
         fields = [
             'invitation_email'
         ]
+
+
 class ButtonForm(forms.Form):
     pass

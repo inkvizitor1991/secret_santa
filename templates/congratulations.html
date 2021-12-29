@@ -1,23 +1,25 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+
+
 {% block content %}
 
-    <div class="row" style="margin-bottom: 200px; margin-top: 160px;">
-        <div class="col-md-6 offset-md-3">
-            <h4 class="text-center">Отлично, Тайный Санта уже готовится к раздаче подарков!</h4>
-            <hr>
-        </div>
-        <div class="col-md-6 offset-md-3">
-          <h4 class="text-center">Ссылка на игру: <mark>https://entropax.pythonanywhere.com</mark></h4>
-          <hr>
-            <h4 class="text-center">Код для приглашения в игру: <mark>{{ password }}</mark></h4>
-            <hr>
-            <form action="{% url 'congratulations' %}" method="POST">
-              {% csrf_token %}
-              {{ form|crispy }}
-            <hr>
-              <input type="submit" class="btn btn-success btn-block" value="Применить">
-            </form>
+  <div class="row" style="margin-bottom: 200px; margin-top: 160px;">
+    <div class="col-md-6 offset-md-3">
+      <h4 class="text-center">Отлично, Тайный Санта уже готовится к раздаче подарков!</h4>
+      <hr>
+    </div>
+    <div class="col-md-6 offset-md-3">
+      <h4 class="text-center">Ссылка на игру: <mark>https://entropax.pythonanywhere.com</mark></h4>
+      <hr>
+      <h4 class="text-center">Код для приглашения в игру: <mark>{{ password }}</mark></h4>
+      <hr>
+      <form action="{% url 'congratulations' %}" method="POST">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <hr>
+        <input type="submit" class="btn btn-success btn-block" value="Применить">
+      </form>
     </div>
   </div>
 

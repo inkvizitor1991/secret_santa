@@ -1,22 +1,19 @@
-from send_message import send_message_to_mail
+from game.management import draw
 from django.shortcuts import render
 from django.http import HttpResponseRedirect
 from django.contrib.auth import authenticate, login
 from django import views
 
-from .forms import LoginForm, RegistrationForm, GameForm, PasswordForm, CongratulationsForm
-
 from .forms import (
-        LoginForm,
-        RegistrationForm,
-        GameForm,
-        PasswordForm,
-        ButtonForm
+    LoginForm,
+    RegistrationForm,
+    GameForm,
+    PasswordForm,
+    ButtonForm,
+    CongratulationsForm
 )
 
 from .models import Game, Player, GamePassword
-
-
 
 
 class BaseViews(views.View):
@@ -92,15 +89,24 @@ class AccountView(views.View):
 
 
 class GameView(views.View):
+    def get(self, request, *args, **kwargs):
+        games = Game.objects.all()
+        return render(request, 'game.html', {'games': games})
 
     def post(self, request, *args, **kwargs):
         form = ButtonForm(request.POST or None)
         games = Game.objects.all()
         draw.make_draw(games[0])
-        return render(request, 'game.html', {'games': games})
+        player = Player.objects.get(name=request.user)
+        recipient = player.gift_reciever
+        recipient_email = player.email
+        body = f'Подарите подарок по адресу: {recipient}'
+        draw.send_email(
+            'Your friend',
+            body,
+            recipient_email,
+        )
 
-    def get(self, request, *args, **kwargs):
-        games = Game.objects.all()
         return render(request, 'game.html', {'games': games})
 
 
@@ -130,9 +136,8 @@ class CreateGameView(views.View):
         return render(request, 'create_game.html', context)
 
 
-
-
 class PasswordGame(views.View):
+
     def get(self, request, *args, **kwargs):
         form = PasswordForm(request.POST or None)
         context = {
@@ -162,7 +167,6 @@ class PasswordGame(views.View):
         return render(request, 'password_game.html', context)
 
 
-
 class Congratulations(views.View):
 
     def get(self, request, *args, **kwargs):
@@ -184,10 +188,15 @@ class Congratulations(views.View):
         form = CongratulationsForm(request.POST or None)
 
         if form.is_valid():
-            website = 'fdfdfsds'
+            website = 'https://entropax.pythonanywhere.com'
             recipient_name = form.cleaned_data['receive_name']
             recipient_email = form.cleaned_data['invitation_email']
-            #send_message_to_mail(recipient_email, send_message_to_mail)################тут функция которая отправляет сообщение на почту
+            body = f'{website}\n{recipient_name}\n{recipient_email}'
+            draw.send_email(
+                'game info',
+                body,
+                recipient_email,
+            )
 
             return HttpResponseRedirect('/')
         context = {

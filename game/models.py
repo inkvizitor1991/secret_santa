@@ -3,21 +3,22 @@ from game import choice_gift, choice_price_gift
 from django.contrib.auth.models import User
 
 
-
-
 class Player(models.Model):
     user = models.ForeignKey(
-            User,
-            related_name='user', verbose_name='Пользователь',
-            on_delete=models.CASCADE
+        User,
+        related_name='user', verbose_name='Пользователь',
+        on_delete=models.CASCADE
     )
     name = models.CharField(max_length=100, verbose_name='Имя игрока')
     email = models.EmailField(verbose_name='Почтовый адрес')
-    wishlist = models.CharField(blank=True, choices=choice_gift.CHOICES, max_length=500)
+    wishlist = models.CharField(
+        blank=True, choices=choice_gift.CHOICES,
+        max_length=500
+    )
     message_to_santa = models.TextField(blank=True)
     gift_reciever = models.EmailField(
-            verbose_name='Почтовый адрес получателя подарка',
-            null=True, blank=True,
+        verbose_name='Почтовый адрес получателя подарка',
+        null=True, blank=True,
     )
 
     def __str__(self):
@@ -57,12 +58,12 @@ class Game(models.Model):
         verbose_name='Дата отправки подарка'
     )
     players = models.ManyToManyField(
-            Player,
-            related_name='games',
-            blank=True,
+        Player,
+        related_name='games',
+        blank=True,
     )
-    invitation_email = models.EmailField(verbose_name='Почта для отправки приглашения', blank=True)
-
+    invitation_email = models.EmailField(
+        verbose_name='Почта для отправки приглашения', blank=True)
 
     def __str__(self):
         return self.name
@@ -70,7 +71,6 @@ class Game(models.Model):
     class Meta:
         verbose_name = 'Игра'
         verbose_name_plural = 'Игры'
-
 
 
 class GamePassword(models.Model):
