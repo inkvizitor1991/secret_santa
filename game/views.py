@@ -187,7 +187,7 @@ class Congratulations(views.View):
             website = 'fdfdfsds'
             recipient_name = form.cleaned_data['receive_name']
             recipient_email = form.cleaned_data['invitation_email']
-            send_message_to_mail(recipient_email)################тут функция которая отправляет сообщение на почту
+            #send_message_to_mail(recipient_email, send_message_to_mail)################тут функция которая отправляет сообщение на почту
 
             return HttpResponseRedirect('/')
         context = {
